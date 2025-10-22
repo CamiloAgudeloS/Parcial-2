@@ -59,7 +59,6 @@ public class InmobiliariaController implements Initializable {
             registrarView.setVisible(false);
             mostrarView.setVisible(true);
 
-            tablaController.refrescarTabla();
         }
     }
 }

@@ -50,13 +50,10 @@ public class TablaController implements Initializable {
 
         tablaInmuebles.setItems(inmuebleRepository.getInmuebles());
 
-        System.out.println("Inicializando tabla con " + inmuebleRepository.getInmuebles().size() + " inmuebles");
     }
 
 
-    public void refrescarTabla() {
-        tablaInmuebles.refresh();
-    }
+
 
     /**
      * Maneja el evento de click en el botón "Eliminar"

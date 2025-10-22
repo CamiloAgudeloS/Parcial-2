@@ -3,6 +3,7 @@ package juanCamiloAgudelo.parcial2.Controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 import juanCamiloAgudelo.parcial2.Modelo.Inmueble;
@@ -13,9 +14,9 @@ import juanCamiloAgudelo.parcial2.repositorio.InmuebleRepository;
 public class FormularioController {
 
 
-    @FXML
-    private TextField txtTipo;
 
+    @FXML
+    private ComboBox<String> cmbTipo;
     @FXML
     private TextField txtCiudad;
 
@@ -40,6 +41,7 @@ public class FormularioController {
     @FXML
     public void initialize() {
         inmuebleRepository = InmuebleRepository.getInstancia();
+        cmbTipo.getItems().addAll("Casa","Finca","Apartamento","Local");
     }
 
     public void setTablaController(TablaController tablaController) {
@@ -57,7 +59,7 @@ public class FormularioController {
         }
 
         try {
-            String tipo = txtTipo.getText().trim();
+            String tipo = cmbTipo.getValue();
             String ciudad = txtCiudad.getText().trim();
             int habitaciones = Integer.parseInt(txtHabitaciones.getText().trim());
             int pisos = Integer.parseInt(txtPisos.getText().trim());
@@ -73,17 +75,15 @@ public class FormularioController {
             mostrarAlerta("Éxito", "Producto creado correctamente", Alert.AlertType.INFORMATION);
 
             if (tablaController != null) {
-                tablaController.refrescarTabla();
             }
-            System.out.println("Guardado inmueble, total: " + inmuebleRepository.getInmuebles().size());
             limpiarCampos();
         } catch (NumberFormatException e) {
-            mostrarAlerta("Error", "El precio y stock deben ser valores numéricos válidos", Alert.AlertType.ERROR);
+            mostrarAlerta("Error", "Las habitaciones, pisos y precio  deben ser valores numéricos válidos", Alert.AlertType.ERROR);
         }
     }
 
     private void limpiarCampos() {
-        txtTipo.clear();
+        cmbTipo.getSelectionModel().clearSelection();
         txtCiudad.clear();
         txtHabitaciones.clear();
         txtPrecio.clear();
@@ -97,7 +97,7 @@ public class FormularioController {
      * Valida que los campos del formulario estén completos
      */
     private boolean validarCampos() {
-        if (txtTipo.getText().trim().isEmpty()) {
+        if (cmbTipo.getValue() == null || cmbTipo.getValue().isBlank()) {
             mostrarAlerta("Error de validación", "El tipo es obligatorio", Alert.AlertType.WARNING);
             return false;
         }
